@@ -1,0 +1,41 @@
+Changing the program from multiprocessing to multithreaded was a simple task. 
+We are assuming that we will not recieve 1024 files or more. 
+I initially had the pthread_join right after pthread_create. What this meant was that I was creating a thread and then waiting until the thread was done. This was not utilizing the multi-threading advantage and was just looping through the current process and making a new thread every time to do so, which is not as efficient as it sounds. 
+
+for(newK = 0; newK < totalNumberOfProcess; newK++) {
+    pthread_create(&tids[newK], NULL, mainSorting, &newK);
+    pthread_join(tids[newK], NULL);
+ } 
+
+So at the end, I had made two separate loops for each as well as making a struct string array that can keep all the information that an otherwise synchronous threads might jumble if I were to put it in a simple new file.  
+
+for(newK = 0; newK < totalNumberOfProcess; newK++) {
+    pthread_create(&tids[newK], NULL, mainSorting, &newK);
+ }
+for(newK = 0; newK < totalNumberOfProcess; newK++) {
+    pthread_join(tids[newK], NULL);
+ }
+
+This was literally all the trouble there was to this project.
+
+To compile this program use the command: gcc -o sorter sorter.c -pthread
+to run this program use one of the following:
+	time ./sorter -c column_name
+	time ./sorter -c column_name -d dir_start
+	time ./sorter -c column_name -o dir_output
+	time ./sorter -c column_name -d dir_start -o dir_output
+	./sorter -c column_name
+	./sorter -c column_name -d dir_start
+	./sorter -c column_name -o dir_output
+	./sorter -c column_name -d dir_start -o dir_output	
+
+This programs will return an error message if a directory given does not exist. In other words if 
+	./sorter -c column_name -d dir_start 
+is given and dir_start does not exist then the program will return an error message.
+Also, an error message is given if a flag is given but no argument is given to it. For example,
+	./sorter -c column_name -d 
+will give an error.
+
+More specifics on what each part of the code does is written in comments above the code segments of each file.
+	
+Our test cases are included in the zip file testDir1024.

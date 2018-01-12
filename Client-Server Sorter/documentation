@@ -1,0 +1,18 @@
+Proj-3 
+---------
+
+
+Our implementation of proj3 automatically does a dump. It will ask the user to input either "0" for sort request or "1" for dump request.
+If 0 is inputed, then the sort request is sent and automatically after that the dump request is sent. 
+If 1 is inputed it just does the dump request.
+If any other number is entered then this is number is ignore and a dump request is instead.
+
+We had trouble understading how to handle the dump and sort request. At first we understood that the client had to stay in an infinite loop until a dump request was given. But since a dump request always happen, after the initial sort request we are assuming that a dump is needed.
+
+We had a problem where after sending all of the data to the server from the client. 
+After our intial sending loop, read and writes were not accepted. 
+The client would get stuck as if caught in a loop waiting to read from the server.
+the server would 50% of the time get stuck and the other 50% go through to the end.
+
+Our test files are included in the folder client.
+The user will be asked to input the number 0 to start the sort request.
